@@ -32,6 +32,7 @@ wd = getcwd()
 list_file = open("train.txt", "w")
 images_id = list(line[:-4] for line in os.listdir("dataver1/images/train"))
 for image_id in images_id:
+    print("/%s.jpg"%(image_id))
     list_file.write("dataver1/images/train/%s.jpg"%(image_id))
     convert_annotation(image_id, list_file)
     list_file.write('\n')
