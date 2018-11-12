@@ -11,7 +11,10 @@ print (classes)
 
 
 def convert_annotation(image_id, list_file):
-    in_file = open("dataver1/annotations/train/%s.xml"%(image_id))
+    try:
+        in_file = open("dataver1/annotations/train/%s.xml"%(image_id))
+    except:
+        return
     tree=ET.parse(in_file)
     root = tree.getroot()
 
