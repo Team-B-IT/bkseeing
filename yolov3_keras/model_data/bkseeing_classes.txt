@@ -1,0 +1,20 @@
+Desk
+Door
+Stairs
+Table
+Bed
+Couch
+Human body
+Wardrobe
+Tableware
+Shelf
+Closet
+Dog
+Cat
+Filing cabinet
+Countertop
+Refrigerator
+Bookcase
+Box
+Mechanical fan
+Others
