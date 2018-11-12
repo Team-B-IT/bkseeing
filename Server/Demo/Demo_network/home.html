@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Giai phuong trinh bac hai</title>
+
+		<style type = "text/css" media = "all">
+			p {
+   				text-align: center;
+			}
+			form {
+				text-align: center;
+			}
+			input	 {
+				text-align: center;
+			}
+			.center {
+				font-size: 20px;
+				margin-left: 20%;
+				margin-right: 20%;
+				margin-bottom: 10%;
+				margin-top: 10%;
+				width: 60%;
+				border: 3px solid #73AD21;
+				padding: 10px;
+				background-color: #FFD9A8;
+			}
+			input[type="text"] {
+				font-size: 15px;
+			}
+			input[type="button"] {
+				font-size: 15px;
+			}
+			input[type=number]::-webkit-inner-spin-button, 
+			input[type=number]::-webkit-outer-spin-button { 
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				margin: 0; 
+			}
+		</style>
+
+		<script type="text/javascript">
+
+			function Solve() {
+				var a = document.getElementById("a").value;
+				var b = document.getElementById("b").value;
+				var c = document.getElementById("c").value;
+				if (a == "" || b == "" || c == "") {
+					alert("Tham so khong hop le!");
+					return;
+				}
+				var d = a + " " + b + " " + c;
+				var xhtml = new XMLHttpRequest();
+				xhtml.onreadystatechange = function() {
+					document.getElementById("result").innerHTML = this.responseText;
+					// if (this.readyState == 4 && this.status == 200) {
+					// 	document.getElementById("result").innerHTML = this.responseText;
+					// }
+					// else {
+					// 	document.getElementById("result").innerHTML = "Server khong phan hoi!";
+					// 	alert(this.readyState + " " + this.status);
+					// }
+				}
+				xhtml.open("POST", "", true);
+				xhtml.send(d);
+			}
+       </script>
+   </head>
+
+   <body>
+   		<div class ="center">
+   			<p>Nhap cac he so cua phuong trinh ax<sup>2</sup> + bx + c = 0</p>
+
+			<form action="#">
+				a = <input type="number" value="" maxlength="256" size="20" name="a" id="a" /><br><br>
+				b = <input type="number" value="" maxlength="256" size="20" name="b" id="b" /><br><br>
+				c = <input type="number" value="" maxlength="256" size="20" name="c" id="c" /><br><br>
+				<input type="button" onclick="Solve()" value="Solve" />
+			</form>
+
+			<p>Nhan nut Solve de giai phuong trinh</p>
+
+			<p id="result"><br></p>
+		</div>
+	</body>
+</html>
