@@ -1,14 +1,13 @@
 import xml.etree.ElementTree as ET
 from os import getcwd
-import os
 
 sets=[('2007', 'train'), ('2007', 'val'), ('2007', 'test')]
 
 classes = ["aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"]
 
 
-def convert_annotation(year=0, image_id, list_file):
-    in_file = open('dataver1/annotations/train/%s.xml'%(year, image_id))
+def convert_annotation(year, image_id, list_file):
+    in_file = open('VOCdevkit/VOC%s/Annotations/%s.xml'%(year, image_id))
     tree=ET.parse(in_file)
     root = tree.getroot()
 
@@ -24,8 +23,6 @@ def convert_annotation(year=0, image_id, list_file):
 
 wd = getcwd()
 
-image_ids = os.listdir
-
 for year, image_set in sets:
     image_ids = open('VOCdevkit/VOC%s/ImageSets/Main/%s.txt'%(year, image_set)).read().strip().split()
     list_file = open('%s_%s.txt'%(year, image_set), 'w')
@@ -34,4 +31,3 @@ for year, image_set in sets:
         convert_annotation(year, image_id, list_file)
         list_file.write('\n')
     list_file.close()
-
