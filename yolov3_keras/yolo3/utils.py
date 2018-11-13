@@ -64,12 +64,8 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
             np.random.shuffle(box)
             if len(box)>max_boxes:
                 box = box[:max_boxes]
-            for i in range(len(box)):
-                # print(i)
-                box[i][0] = box[i][0]*scale + dx
-                box[i][2] = box[i][2]*scale + dx
-                box[i][1] = box[i][1]*scale + dy
-                box[i][3] = box[i][3]*scale + dy
+            box[:, [0,2]] = box[:, [0,2]] * scale + dx
+            box[:, [1,3]] = box[:, [1,3]] * scale + dy
             box_data[:len(box)] = box
 
         return image_data, box_data
