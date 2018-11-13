@@ -20,7 +20,10 @@ with open("train_tmp.txt") as f:
 				# print(i)
 				box.append(i)
 			# print(box)
-			if (box[0]+box[2]>=2*w or box[2]+box[3]>=2*h):
+			if (box[0] not in range(0, w)
+				or box[2] not in range(0, w)
+				or box[1] not in range(0, h)
+				or box[3] not in range(0, h)):
 				error_list.append(line[0])
 				print(line[0] + " Error!")
 				break
