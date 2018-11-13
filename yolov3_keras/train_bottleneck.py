@@ -12,6 +12,8 @@ from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, Ear
 from yolo3.model import preprocess_true_boxes, yolo_body, tiny_yolo_body, yolo_loss
 from yolo3.utils import get_random_data
 
+from PIL import ImageFile
+
 
 def _main():
     annotation_path = 'train.txt'
@@ -219,4 +221,5 @@ def bottleneck_generator(annotation_lines, batch_size, input_shape, anchors, num
         yield [b0, b1, b2, *y_true], np.zeros(batch_size)
 
 if __name__ == '__main__':
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
     _main()
