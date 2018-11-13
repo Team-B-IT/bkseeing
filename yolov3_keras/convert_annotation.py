@@ -35,6 +35,7 @@ images_id = list(line[:-4] for line in os.listdir("dataver1/images/train"))
 for image_id in images_id:
     try:
         Image.open("dataver1/images/train/"+image_id+".jpg")
+        open("dataver1/annotations/train/%s.xml"%(image_id))
     except:
         continue
     print("/%s.jpg"%(image_id))
