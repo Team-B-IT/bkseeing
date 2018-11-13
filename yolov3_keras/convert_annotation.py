@@ -2,7 +2,6 @@ import xml.etree.ElementTree as ET
 from os import getcwd
 import os
 from PIL import Image
-from data_checker import check
 
 sets=[('2007', 'train'), ('2007', 'val'), ('2007', 'test')]
 
@@ -39,12 +38,13 @@ def convert_annotation(image_id, list_file):
         list_file.write(" " + ",".join([str(a) for a in b]) + ',' + str(cls_id))
 
 wd = getcwd()
-list_file = open("train.txt", "w")
-error_list = check()
+list_file = open("train_tmp.txt", "w")
+# error_list = check()
+# print(error_list)
 images_id = list(line[:-4] for line in os.listdir("dataver1/images/train"))
 for image_id in images_id:
-    if "dataver1/images/train/"+image_id+".jpg" in error_list:
-        continue
+    # if "dataver1/images/train/"+image_id+".jpg" in error_list:
+    #     continue
     try:
         Image.open("dataver1/images/train/"+image_id+".jpg")
         open("dataver1/annotations/train/%s.xml"%(image_id))
