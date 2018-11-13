@@ -212,6 +212,7 @@ def bottleneck_generator(annotation_lines, batch_size, input_shape, anchors, num
         for b in range(batch_size):
             _, box = get_random_data(annotation_lines[i], input_shape, random=False, proc_img=False)
             box_data.append(box)
+            print(b, i)
             b0[b]=bottlenecks[0][i]
             b1[b]=bottlenecks[1][i]
             b2[b]=bottlenecks[2][i]
