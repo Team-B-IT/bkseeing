@@ -35,6 +35,6 @@ with open("train_tmp.txt") as f:
 		if line.split()[0] not in error_list:
 			fw.write(line)
 			count += 1
-			if count == 2000:
+			if count == 1000:
 				break
 fw.close()
