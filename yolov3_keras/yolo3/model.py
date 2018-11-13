@@ -255,10 +255,9 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     boxes_wh = true_boxes[..., 2:4] - true_boxes[..., 0:2]
     true_boxes[..., 0:2] = boxes_xy/input_shape[::-1]
     for i in true_boxes[...,0:2]:
-        for j in i:
-            if j >= 1.0:
-                print("Lỗi ở đây!")
-                return
+        if i.any() >= 1.0:
+            print("Lỗi ở đây!")
+            return
     true_boxes[..., 2:4] = boxes_wh/input_shape[::-1]
 
     # print(true_boxes)
