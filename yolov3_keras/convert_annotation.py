@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from os import getcwd
 import os
+from PIL import Image
 
 sets=[('2007', 'train'), ('2007', 'val'), ('2007', 'test')]
 
@@ -32,6 +33,10 @@ wd = getcwd()
 list_file = open("train.txt", "w")
 images_id = list(line[:-4] for line in os.listdir("dataver1/images/train"))
 for image_id in images_id:
+    try:
+        Image.open("dataver1/images/train/"+image_id+".jpg")
+    except:
+        continue
     print("/%s.jpg"%(image_id))
     list_file.write("dataver1/images/train/%s.jpg"%(image_id))
     convert_annotation(image_id, list_file)
