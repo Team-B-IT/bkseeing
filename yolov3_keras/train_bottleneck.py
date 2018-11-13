@@ -50,7 +50,7 @@ def _main():
         # perform bottleneck training
         if not os.path.isfile("bottlenecks.npz"):
             print("calculating bottlenecks")
-            batch_size=8
+            batch_size=4
             bottlenecks=bottleneck_model.predict_generator(data_generator_wrapper(lines, batch_size, input_shape, anchors, num_classes, random=False, verbose=True),
              steps=(len(lines)//batch_size)+1, max_queue_size=1)
             np.savez("bottlenecks.npz", bot0=bottlenecks[0], bot1=bottlenecks[1], bot2=bottlenecks[2])
