@@ -36,7 +36,7 @@ def rand(a=0, b=1):
 def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jitter=.3, hue=.1, sat=1.5, val=1.5, proc_img=True):
     '''random preprocessing for real-time data augmentation'''
     line = annotation_line.split()
-    print(line[0])
+    # print(line[0])
     image = Image.open(line[0])
     iw, ih = image.size
     h, w = input_shape
@@ -61,8 +61,10 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
         if len(box)>0:
             np.random.shuffle(box)
             if len(box)>max_boxes: box = box[:max_boxes]
-            box[:, [0,2]] = box[:, [0,2]]*scale + dx
-            box[:, [1,3]] = box[:, [1,3]]*scale + dy
+            box[0] = box[0]*scale + dx
+            box[2] = box[2]*scale + dx
+            box[1] = box[1]*scale + dy
+            box[3] = box[3]*scale + dx
             box_data[:len(box)] = box
 
         return image_data, box_data
