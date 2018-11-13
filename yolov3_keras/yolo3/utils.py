@@ -39,6 +39,7 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
     # print(line[0])
     image = Image.open(line[0])
     iw, ih = image.size
+    # print(iw, ih)
     h, w = input_shape
     box = np.array([np.array(list(map(int,box.split(',')))) for box in line[1:]])
 
@@ -60,11 +61,12 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
         box_data = np.zeros((max_boxes,5))
         if len(box)>0:
             np.random.shuffle(box)
-            if len(box)>max_boxes: box = box[:max_boxes]
-            box[0] = box[0]*scale + dx
-            box[2] = box[2]*scale + dx
-            box[1] = box[1]*scale + dy
-            box[3] = box[3]*scale + dy
+            if len(box)>max_boxes:
+                box = box[:max_boxes]
+            box[:][0] = box[:][0]*scale + dx
+            box[:][2] = box[:][2]*scale + dx
+            box[:][1] = box[:][1]*scale + dy
+            box[:][3] = box[:][3]*scale + dy
             box_data[:len(box)] = box
 
         return image_data, box_data
