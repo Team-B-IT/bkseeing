@@ -254,6 +254,10 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     boxes_xy = (true_boxes[..., 0:2] + true_boxes[..., 2:4]) // 2
     boxes_wh = true_boxes[..., 2:4] - true_boxes[..., 0:2]
     true_boxes[..., 0:2] = boxes_xy/input_shape[::-1]
+    for i in true_boxes[...,0:2]:
+        if i >= 1.0:
+            print("Lỗi ở đây!")
+            return
     true_boxes[..., 2:4] = boxes_wh/input_shape[::-1]
 
     # print(true_boxes)
@@ -269,8 +273,8 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     anchor_mins = -anchor_maxes
     valid_mask = boxes_wh[..., 0]>0
 
-    print(true_boxes)
-    
+    # print(true_boxes)
+
     for b in range(m):
         # Discard zero rows.
         wh = boxes_wh[b, valid_mask[b]]
@@ -298,9 +302,9 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
                     j = np.floor(true_boxes[b,t,1]*(grid_shapes[l][1]-1)).astype('int32')
                     k = anchor_mask[l].index(n)
                     c = true_boxes[b,t, 4].astype('int32')
-                    print(true_boxes[b,t,0], grid_shapes[l][0])
-                    print(true_boxes[b,t,1], grid_shapes[l][1])
-                    print(l, b, i, j, k, c)
+                    # print(true_boxes[b,t,0], grid_shapes[l][0])
+                    # print(true_boxes[b,t,1], grid_shapes[l][1])
+                    # print(l, b, i, j, k, c)
                     y_true[l][b, j, i, k, 0:4] = true_boxes[b,t, 0:4]
                     y_true[l][b, j, i, k, 4] = 1
                     y_true[l][b, j, i, k, 5+c] = 1
