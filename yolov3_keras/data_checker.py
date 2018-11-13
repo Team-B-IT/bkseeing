@@ -27,10 +27,14 @@ with open("train_tmp.txt") as f:
 				error_list.append(line[0])
 				print(line[0] + " Error!")
 				break
+count = 0
 print(len(error_list))
 fw = open("train.txt", "w")
 with open("train_tmp.txt") as f:
 	for line in f:
 		if line.split()[0] not in error_list:
 			fw.write(line)
+			count += 1
+			if count == 2000:
+				break
 fw.close()
