@@ -6,3 +6,4 @@
 *.zip
 *.h5
 *.weights
+train.txt
