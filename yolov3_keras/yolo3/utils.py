@@ -110,8 +110,8 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
     box_data = np.zeros((max_boxes,5))
     if len(box)>0:
         np.random.shuffle(box)
-        box[:, [0,2]] = box[:, [0,2]]*nw/iw
-        box[:, [1,3]] = box[:, [1,3]]*nh/ih
+        box[:, [0,2]] = box[:, [0,2]]*nw/iw + dx
+        box[:, [1,3]] = box[:, [1,3]]*nh/ih + dy
         if flip: box[:, [0,2]] = w - box[:, [2,0]]
         box[:, 0:2][box[:, 0:2]<0] = 0
         box[:, 2][box[:, 2]>w] = w
