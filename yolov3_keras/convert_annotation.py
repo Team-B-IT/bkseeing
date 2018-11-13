@@ -31,7 +31,9 @@ def convert_annotation(image_id, list_file):
         cls_id = classes.index(cls)
         xmlbox = obj.find('bndbox')
         b = (int(xmlbox.find('xmin').text), int(xmlbox.find('ymin').text), int(xmlbox.find('xmax').text), int(xmlbox.find('ymax').text))
-        if (i not in range(w, h+1) for i in b):
+        if (b[0] not in range(0,w+1) or b[1] not in range(0,w+1)):
+            continue
+        if (b[1] not in range(0,h+1) or b[3] not in range(0,h+1)):
             continue
         list_file.write(" " + ",".join([str(a) for a in b]) + ',' + str(cls_id))
 
