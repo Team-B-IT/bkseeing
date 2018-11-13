@@ -19,6 +19,10 @@ def convert_annotation(image_id, list_file):
     tree=ET.parse(in_file)
     root = tree.getroot()
 
+    for obj in root.iter('size'):
+        w = int(obj.find('width').text)
+        h = int(obj.find('height').text)
+
     for obj in root.iter('object'):
         difficult = obj.find('difficult').text
         cls = obj.find('name').text
@@ -27,6 +31,8 @@ def convert_annotation(image_id, list_file):
         cls_id = classes.index(cls)
         xmlbox = obj.find('bndbox')
         b = (int(xmlbox.find('xmin').text), int(xmlbox.find('ymin').text), int(xmlbox.find('xmax').text), int(xmlbox.find('ymax').text))
+        if (i not in range(w, h+1) for i in b):
+            continue
         list_file.write(" " + ",".join([str(a) for a in b]) + ',' + str(cls_id))
 
 wd = getcwd()
