@@ -67,6 +67,7 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
             box[:, [0,2]] = box[:, [0,2]] * scale + dx
             box[:, [1,3]] = box[:, [1,3]] * scale + dy
             box_data[:len(box)] = box
+            print(box)
 
         return image_data, box_data
 
