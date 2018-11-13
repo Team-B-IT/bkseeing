@@ -12,8 +12,6 @@ from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, Ear
 from yolo3.model import preprocess_true_boxes, yolo_body, tiny_yolo_body, yolo_loss
 from yolo3.utils import get_random_data
 
-from PIL import ImageFile
-
 
 def _main():
     annotation_path = 'train.txt'
@@ -43,7 +41,6 @@ def _main():
     np.random.seed(None)
     num_val = int(len(lines)*val_split)
     num_train = len(lines) - num_val
-    print(num_val, num_train)
 
     # Train with frozen layers first, to get a stable loss.
     # Adjust num epochs to your dataset. This step is enough to obtain a not bad model.
@@ -51,7 +48,7 @@ def _main():
         # perform bottleneck training
         if not os.path.isfile("bottlenecks.npz"):
             print("calculating bottlenecks")
-            batch_size=4
+            batch_size=8
             bottlenecks=bottleneck_model.predict_generator(data_generator_wrapper(lines, batch_size, input_shape, anchors, num_classes, random=False, verbose=True),
              steps=(len(lines)//batch_size)+1, max_queue_size=1)
             np.savez("bottlenecks.npz", bot0=bottlenecks[0], bot1=bottlenecks[1], bot2=bottlenecks[2])
@@ -62,7 +59,7 @@ def _main():
         bottlenecks_val=[dict_bot["bot0"][num_train:], dict_bot["bot1"][num_train:], dict_bot["bot2"][num_train:]]
 
         # train last layers with fixed bottleneck features
-        batch_size=4
+        batch_size=8
         print("Training last layers with bottleneck features")
         print('with {} samples, val on {} samples and batch size {}.'.format(num_train, num_val, batch_size))
         last_layer_model.compile(optimizer='adam', loss={'yolo_loss': lambda y_true, y_pred: y_pred})
@@ -78,7 +75,7 @@ def _main():
         model.compile(optimizer=Adam(lr=1e-3), loss={
             # use custom yolo_loss Lambda layer.
             'yolo_loss': lambda y_true, y_pred: y_pred})
-        batch_size = 4
+        batch_size = 16
         print('Train on {} samples, val on {} samples, with batch size {}.'.format(num_train, num_val, batch_size))
         model.fit_generator(data_generator_wrapper(lines[:num_train], batch_size, input_shape, anchors, num_classes),
                 steps_per_epoch=max(1, num_train//batch_size),
@@ -213,7 +210,6 @@ def bottleneck_generator(annotation_lines, batch_size, input_shape, anchors, num
         for b in range(batch_size):
             _, box = get_random_data(annotation_lines[i], input_shape, random=False, proc_img=False)
             box_data.append(box)
-            print(b, i)
             b0[b]=bottlenecks[0][i]
             b1[b]=bottlenecks[1][i]
             b2[b]=bottlenecks[2][i]
@@ -223,5 +219,4 @@ def bottleneck_generator(annotation_lines, batch_size, input_shape, anchors, num
         yield [b0, b1, b2, *y_true], np.zeros(batch_size)
 
 if __name__ == '__main__':
-    ImageFile.LOAD_TRUNCATED_IMAGES = True
     _main()

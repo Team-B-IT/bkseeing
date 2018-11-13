@@ -254,12 +254,7 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     boxes_xy = (true_boxes[..., 0:2] + true_boxes[..., 2:4]) // 2
     boxes_wh = true_boxes[..., 2:4] - true_boxes[..., 0:2]
     true_boxes[..., 0:2] = boxes_xy/input_shape[::-1]
-    # if true_boxes[...,0:2].any() >= 1.0:
-    #     print("Error!!!!")
-    #     return
     true_boxes[..., 2:4] = boxes_wh/input_shape[::-1]
-
-    # print(true_boxes)
 
     m = true_boxes.shape[0]
     grid_shapes = [input_shape//{0:32, 1:16, 2:8}[l] for l in range(num_layers)]
@@ -271,8 +266,6 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     anchor_maxes = anchors / 2.
     anchor_mins = -anchor_maxes
     valid_mask = boxes_wh[..., 0]>0
-
-    # print(true_boxes)
 
     for b in range(m):
         # Discard zero rows.
@@ -297,13 +290,10 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
         for t, n in enumerate(best_anchor):
             for l in range(num_layers):
                 if n in anchor_mask[l]:
-                    i = np.floor(true_boxes[b,t,0]*(grid_shapes[l][1])).astype('int32')
-                    j = np.floor(true_boxes[b,t,1]*(grid_shapes[l][1])).astype('int32')
+                    i = np.floor(true_boxes[b,t,0]*grid_shapes[l][1]).astype('int32')
+                    j = np.floor(true_boxes[b,t,1]*grid_shapes[l][0]).astype('int32')
                     k = anchor_mask[l].index(n)
                     c = true_boxes[b,t, 4].astype('int32')
-                    # print(true_boxes[b,t,0], grid_shapes[l][0])
-                    # print(true_boxes[b,t,1], grid_shapes[l][1])
-                    # print(l, b, i, j, k, c)
                     y_true[l][b, j, i, k, 0:4] = true_boxes[b,t, 0:4]
                     y_true[l][b, j, i, k, 4] = 1
                     y_true[l][b, j, i, k, 5+c] = 1

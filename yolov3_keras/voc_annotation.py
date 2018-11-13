@@ -31,3 +31,4 @@ for year, image_set in sets:
         convert_annotation(year, image_id, list_file)
         list_file.write('\n')
     list_file.close()
+

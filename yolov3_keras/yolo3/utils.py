@@ -36,10 +36,8 @@ def rand(a=0, b=1):
 def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jitter=.3, hue=.1, sat=1.5, val=1.5, proc_img=True):
     '''random preprocessing for real-time data augmentation'''
     line = annotation_line.split()
-    # print(line[0])
     image = Image.open(line[0])
     iw, ih = image.size
-    # print(iw, ih)
     h, w = input_shape
     box = np.array([np.array(list(map(int,box.split(',')))) for box in line[1:]])
 
@@ -58,16 +56,13 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
             image_data = np.array(new_image)/255.
 
         # correct boxes
-        # print(box)
         box_data = np.zeros((max_boxes,5))
         if len(box)>0:
             np.random.shuffle(box)
-            if len(box)>max_boxes:
-                box = box[:max_boxes]
-            box[:, [0,2]] = box[:, [0,2]] * scale + dx
-            box[:, [1,3]] = box[:, [1,3]] * scale + dy
+            if len(box)>max_boxes: box = box[:max_boxes]
+            box[:, [0,2]] = box[:, [0,2]]*scale + dx
+            box[:, [1,3]] = box[:, [1,3]]*scale + dy
             box_data[:len(box)] = box
-            # print(box)
 
         return image_data, box_data
 
@@ -122,5 +117,5 @@ def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jit
         box = box[np.logical_and(box_w>1, box_h>1)] # discard invalid box
         if len(box)>max_boxes: box = box[:max_boxes]
         box_data[:len(box)] = box
-        # print(box)
+
     return image_data, box_data
