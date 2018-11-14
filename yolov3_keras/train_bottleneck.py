@@ -47,30 +47,30 @@ def _main():
     # Adjust num epochs to your dataset. This step is enough to obtain a not bad model.
     if True:
         # perform bottleneck training
-        if not os.path.isfile("bottlenecks.npz"):
-            print("calculating bottlenecks")
-            batch_size=4
-            bottlenecks=bottleneck_model.predict_generator(data_generator_wrapper(lines, batch_size, input_shape, anchors, num_classes, random=False, verbose=True),
-             steps=(len(lines)//batch_size)+1, max_queue_size=1)
-            np.savez("bottlenecks.npz", bot0=bottlenecks[0], bot1=bottlenecks[1], bot2=bottlenecks[2])
+        # if not os.path.isfile("bottlenecks.npz"):
+        #     print("calculating bottlenecks")
+        #     batch_size=4
+        #     bottlenecks=bottleneck_model.predict_generator(data_generator_wrapper(lines, batch_size, input_shape, anchors, num_classes, random=False, verbose=True),
+        #      steps=(len(lines)//batch_size)+1, max_queue_size=1)
+        #     np.savez("bottlenecks.npz", bot0=bottlenecks[0], bot1=bottlenecks[1], bot2=bottlenecks[2])
     
-        # load bottleneck features from file
-        dict_bot=np.load("bottlenecks.npz")
-        bottlenecks_train=[dict_bot["bot0"][:num_train], dict_bot["bot1"][:num_train], dict_bot["bot2"][:num_train]]
-        bottlenecks_val=[dict_bot["bot0"][num_train:], dict_bot["bot1"][num_train:], dict_bot["bot2"][num_train:]]
+        # # load bottleneck features from file
+        # dict_bot=np.load("bottlenecks.npz")
+        # bottlenecks_train=[dict_bot["bot0"][:num_train], dict_bot["bot1"][:num_train], dict_bot["bot2"][:num_train]]
+        # bottlenecks_val=[dict_bot["bot0"][num_train:], dict_bot["bot1"][num_train:], dict_bot["bot2"][num_train:]]
 
-        # train last layers with fixed bottleneck features
-        batch_size=4
-        print("Training last layers with bottleneck features")
-        print('with {} samples, val on {} samples and batch size {}.'.format(num_train, num_val, batch_size))
-        last_layer_model.compile(optimizer='adam', loss={'yolo_loss': lambda y_true, y_pred: y_pred})
-        last_layer_model.fit_generator(bottleneck_generator(lines[:num_train], batch_size, input_shape, anchors, num_classes, bottlenecks_train),
-                steps_per_epoch=max(1, num_train//batch_size),
-                validation_data=bottleneck_generator(lines[num_train:], batch_size, input_shape, anchors, num_classes, bottlenecks_val),
-                validation_steps=max(1, num_val//batch_size),
-                epochs=30,
-                initial_epoch=0, max_queue_size=1)
-        model.save_weights(log_dir + 'trained_weights_stage_0.h5')
+        # # train last layers with fixed bottleneck features
+        # batch_size=4
+        # print("Training last layers with bottleneck features")
+        # print('with {} samples, val on {} samples and batch size {}.'.format(num_train, num_val, batch_size))
+        # last_layer_model.compile(optimizer='adam', loss={'yolo_loss': lambda y_true, y_pred: y_pred})
+        # last_layer_model.fit_generator(bottleneck_generator(lines[:num_train], batch_size, input_shape, anchors, num_classes, bottlenecks_train),
+        #         steps_per_epoch=max(1, num_train//batch_size),
+        #         validation_data=bottleneck_generator(lines[num_train:], batch_size, input_shape, anchors, num_classes, bottlenecks_val),
+        #         validation_steps=max(1, num_val//batch_size),
+        #         epochs=30,
+        #         initial_epoch=0, max_queue_size=1)
+        # model.save_weights(log_dir + 'trained_weights_stage_0.h5')
         
         # train last layers with random augmented data
         model.compile(optimizer=Adam(lr=1e-3), loss={
