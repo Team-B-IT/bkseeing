@@ -45,7 +45,7 @@ def _main():
 
     # Train with frozen layers first, to get a stable loss.
     # Adjust num epochs to your dataset. This step is enough to obtain a not bad model.
-    if True:
+    if False:
         # perform bottleneck training
         if not os.path.isfile("bottlenecks.npz"):
             print("calculating bottlenecks")
