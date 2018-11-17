@@ -26,7 +26,7 @@ def _main():
     input_shape = (416,416) # multiple of 32, hw
 
     model, bottleneck_model, last_layer_model = create_model(input_shape, anchors, num_classes,
-            freeze_body=2, weights_path='logs/000/trained_weights_stage_1.h5') # make sure you know what you freeze
+            freeze_body=2, weights_path='logs/000/trained_weights_prefinal_1.h5') # make sure you know what you freeze
 
     logging = TensorBoard(log_dir=log_dir)
     checkpoint = ModelCheckpoint(log_dir + 'ep{epoch:03d}-loss{loss:.3f}-val_loss{val_loss:.3f}.h5',
@@ -104,7 +104,7 @@ def _main():
             epochs=55,
             initial_epoch=40,
             callbacks=[logging, checkpoint, reduce_lr, early_stopping])
-        model.save_weights(log_dir + 'trained_weights_prefinal_1.h5')
+        model.save_weights(log_dir + 'trained_weights_prefinal_2.h5')
 
     # Further training if needed.
 
