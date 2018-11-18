@@ -11,6 +11,7 @@ print (classes)
 
 def convert_annotation(image_id, list_file):
     try:
+        Image.open("BKSeeing/data-ver-1.2/"+image_id+".jpg")
         in_file = open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
     except:
         return
@@ -48,7 +49,7 @@ def convert_annotation(image_id, list_file):
             temp = b[1]
             b[1] = b[3]
             b[3] = temp
-        list_file.write(" " + ",".join([str(a) for a in b]) + ',' + str(cls_id))
+        list_file.write("BKSeeing/data-ver-1.2/%s.jpg"%(image_id) + " " + ",".join([str(a) for a in b]) + ',' + str(cls_id) + '\n')
 
 list_file = open("train.txt", "w")
 images_list = open("ID.csv", "r")
@@ -60,14 +61,6 @@ images_id = list(line.replace('\n','') for line in images_list)
 print("Checkpoint_2")
 
 for image_id in images_id:
-    print("Try " + image_id)
-    try:
-        Image.open("BKSeeing/data-ver-1.2/"+image_id+".jpg")
-        open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
-    except:
-        continue
     print("/%s.jpg"%(image_id))
-    list_file.write("BKSeeing/data-ver-1.2/%s.jpg"%(image_id))
     convert_annotation(image_id, list_file)
-    list_file.write('\n')
 list_file.close()
