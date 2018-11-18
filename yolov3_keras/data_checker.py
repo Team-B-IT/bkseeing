@@ -25,7 +25,7 @@ with open("train_tmp.txt") as f:
 				or box[1] not in range(0, h)
 				or box[3] not in range(0, h)):
 				error_list.append(line[0])
-				print(line[0] + " Error!")
+				print(line[0] + " Error!", h, w, box)
 				break
 count = 0
 print(len(error_list))
