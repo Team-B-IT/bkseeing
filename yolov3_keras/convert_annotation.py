@@ -10,13 +10,14 @@ print (classes)
 
 
 def convert_annotation(image_id, list_file):
-    try:
-        print("Trying")
-        Image.open("BKSeeing/data-ver-1.2/"+image_id+".jpg")
-        in_file = open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
-    except:
-        return
-    print("Success")
+    # try:
+    #     print("Trying")
+    #     Image.open("BKSeeing/data-ver-1.2/"+image_id+".jpg")
+    #     in_file = open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
+    # except:
+    #     return
+    in_file = open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
+    # print("Success")
     tree=ET.parse(in_file)
     root = tree.getroot()
 
