@@ -57,6 +57,8 @@ print("Checkpoint_1")
 
 images_id = list(line.replace('\n','') for line in images_list)
 
+print("Checkpoint_2")
+
 for image_id in images_id:
     try:
         Image.open("BKSeeing/data-ver-1.2/"+image_id+".jpg")
