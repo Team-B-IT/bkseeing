@@ -53,6 +53,8 @@ def convert_annotation(image_id, list_file):
 list_file = open("train.txt", "w")
 images_list = open("ID.csv", "r")
 
+print("Checkpoint_1")
+
 images_id = list(line.replace('\n','') for line in images_list)
 
 for image_id in images_id:
