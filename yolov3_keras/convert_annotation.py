@@ -60,6 +60,7 @@ images_id = list(line.replace('\n','') for line in images_list)
 print("Checkpoint_2")
 
 for image_id in images_id:
+    print("Try " + image_id)
     try:
         Image.open("BKSeeing/data-ver-1.2/"+image_id+".jpg")
         open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
