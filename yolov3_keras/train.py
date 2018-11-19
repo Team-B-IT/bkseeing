@@ -31,7 +31,7 @@ def _main():
             freeze_body=2, weights_path='model_data/tiny_yolo_weights.h5')
     else:
         model = create_model(input_shape, anchors, num_classes,
-            freeze_body=2, weights_path='model_data/yolo_weights.h5') # make sure you know what you freeze
+            freeze_body=2, weights_path='model_data/0.h5') # make sure you know what you freeze
 
     logging = TensorBoard(log_dir=log_dir)
     checkpoint = ModelCheckpoint(log_dir + 'ep{epoch:03d}-loss{loss:.3f}-val_loss{val_loss:.3f}.h5',
@@ -61,14 +61,14 @@ def _main():
                 steps_per_epoch=max(1, num_train//batch_size),
                 validation_data=data_generator_wrapper(lines[num_train:], batch_size, input_shape, anchors, num_classes),
                 validation_steps=max(1, num_val//batch_size),
-                epochs=30,
+                epochs=10,
                 initial_epoch=0,
                 callbacks=[logging, checkpoint])
-        model.save_weights(log_dir + 'trained_weights_stage_1.h5')
+        model.save_weights('model_data/1.h5')
 
     # Unfreeze and continue training, to fine-tune.
     # Train longer if the result is not good.
-    if True:
+    if False:
         for i in range(len(model.layers)):
             model.layers[i].trainable = True
         model.compile(optimizer=Adam(lr=1e-4), loss={'yolo_loss': lambda y_true, y_pred: y_pred}) # recompile to apply the change
