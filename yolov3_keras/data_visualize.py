@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFile
 import os
 
-num_box = [0] * 20
+num_box = [0] * 22
 classes = []
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -29,7 +29,7 @@ with open("train.txt") as f:
 			img.show()
 			os.system("pause")
 
-for i in range(20):
+for i in range(22):
 	print(classes[i] + ": " + str(num_box[i]))
 plt.bar(classes, num_box, width = 0.5, color = "green", linewidth = 0.5)
 plt.show()

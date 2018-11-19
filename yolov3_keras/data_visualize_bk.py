@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 
-num_box = [0] * 20
+num_box = [0] * 22
 classes = []
 
 with open('model_data/bkseeing_classes.txt') as f:
@@ -24,5 +24,6 @@ with open("train.txt") as f:
 # 	print(classes[i] + ": " + str(num_box[i]))
 plt.bar(classes, num_box, width = 0.5, color = "green", linewidth = 0.5)
 plt.show()
-for i in range(20):
+for i in range(22):
 	print(str(i)+": "+classes[i])
+	print(num_box[i])
