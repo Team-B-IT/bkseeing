@@ -7,3 +7,5 @@
 *.h5
 *.weights
 *.csv
+*.ini
+
