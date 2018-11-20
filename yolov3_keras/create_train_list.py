@@ -60,8 +60,8 @@ os.getcwd()
 list_file = open("train.txt", "w")
 
 for i in range(1, 21):
-    jpg_folder = "BKSeeing/data-ver-1.5/jpg" + str(i)
-    xml_folder = "BKSeeing/data-ver-1.5/xml" + str(i)
+    jpg_folder = "BKSeeing/data-ver-1.8/jpg" + str(i)
+    xml_folder = "BKSeeing/data-ver-1.8/xml" + str(i)
     for file in os.listdir(jpg_folder):
         extension = file[-4:]
         if extension != ".jpg":
