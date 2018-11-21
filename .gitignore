@@ -1,4 +1,3 @@
-*.xml
 *.exe
 *.pyc
 *.jpg
@@ -8,4 +7,3 @@
 *.weights
 *.csv
 *.ini
-

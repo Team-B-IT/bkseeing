@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setRequestMethod("POST");
 //                urlConnection.setDoOutput(true);
 //                urlConnection.setInstanceFollowRedirects(false);
-//                String requestdata = "Hello!";
+               String query = URLEncoder.encode("Hello!", "utf-8");
 //                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 //                urlConnection.setRequestProperty("charset", "utf-8");
 //                urlConnection.setRequestProperty("Content-Length", Integer.toString(requestdata.length()));
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //                try (DataOutputStream w = new DataOutputStream(urlConnection.getOutputStream())) {
 //                    w.write(requestdata.getBytes());
 //                }
-                urlConnection.getResponseCode();
+                int code = urlConnection.getResponseCode();
                 Toast.makeText(MainActivity.this, "Anh Vuong dep trai", Toast.LENGTH_LONG).show();
 //                try {
 //                    String tmp = urlConnection.getRequestMethod();
