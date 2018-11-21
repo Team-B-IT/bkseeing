@@ -1,0 +1,2 @@
+sudo docker build -t app_py .
+sudo docker run -i -p 80:80 app_py
