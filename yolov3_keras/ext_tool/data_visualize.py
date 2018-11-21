@@ -8,11 +8,11 @@ classes = []
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-with open('model_data/bkseeing_classes.txt') as f:
+with open('../model_data/bkseeing_classes.txt') as f:
 	for line in f:
 		classes.append(line.replace('\n',''))
 
-with open("train.txt") as f:
+with open("../train.txt") as f:
 	for line in f:
 		print(line)
 		ok = False

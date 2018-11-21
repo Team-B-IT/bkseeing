@@ -4,7 +4,7 @@ import os
 from PIL import Image
 
 classes = []
-with open("model_data/bkseeing_classes.txt") as f:
+with open("../model_data/bkseeing_classes.txt") as f:
     classes = list(line.replace('\n', '') for line in f)
 print (classes)
 
@@ -16,7 +16,7 @@ def convert_annotation(image_id, list_file):
     #     in_file = open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
     # except:
     #     return
-    in_file = open("BKSeeing/data-ver-1.2/%s.xml"%(image_id))
+    in_file = open("../../../data/BKSeeing/data-ver-1.2/%s.xml"%(image_id))
     # print("Success")
     tree=ET.parse(in_file)
     root = tree.getroot()
@@ -52,10 +52,10 @@ def convert_annotation(image_id, list_file):
             temp = b[1]
             b[1] = b[3]
             b[3] = temp
-        list_file.write("BKSeeing/data-ver-1.2/%s.jpg"%(image_id) + " " + ",".join([str(a) for a in b]) + ',' + str(cls_id) + '\n')
+        list_file.write("../../../data/BKSeeing/data-ver-1.2/%s.jpg"%(image_id) + " " + ",".join([str(a) for a in b]) + ',' + str(cls_id) + '\n')
 
-list_file = open("train.txt", "w")
-images_list = open("ID.csv", "r")
+list_file = open("../train.txt", "w")
+images_list = open("../ID.csv", "r")
 
 print("Checkpoint_1")
 

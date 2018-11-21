@@ -1,7 +1,7 @@
 from PIL import Image
 
 error_list = []
-with open("train_tmp.txt") as f:
+with open("../train_tmp.txt") as f:
 	for line in f:
 		# print(line)
 		line = line.split()
@@ -29,8 +29,8 @@ with open("train_tmp.txt") as f:
 				break
 count = 0
 print(len(error_list))
-fw = open("train.txt", "w")
-with open("train_tmp.txt") as f:
+fw = open("../train.txt", "w")
+with open("../train_tmp.txt") as f:
 	for line in f:
 		if line.split()[0] not in error_list:
 			fw.write(line)

@@ -4,7 +4,7 @@ import os
 from PIL import Image
 
 classes = []
-with open("model_data/bkseeing_classes.txt") as f:
+with open("../model_data/bkseeing_classes.txt") as f:
     classes = list(line.replace('\n', '') for line in f)
 print (classes)
 
@@ -57,11 +57,11 @@ def convert_annotation(img_link, xml_link, list_file):
     list_file.write("\n")
 
 os.getcwd()
-list_file = open("train.txt", "w")
+list_file = open("../train.txt", "w")
 
 for i in range(1, 21):
-    jpg_folder = "BKSeeing/data-ver-1.8/jpg" + str(i)
-    xml_folder = "BKSeeing/data-ver-1.8/xml" + str(i)
+    jpg_folder = "../../../data/BKSeeing/data-ver-1.8/jpg" + str(i)
+    xml_folder = "../../../data/BKSeeing/data-ver-1.8/xml" + str(i)
     for file in os.listdir(jpg_folder):
         extension = file[-4:]
         if extension != ".jpg":

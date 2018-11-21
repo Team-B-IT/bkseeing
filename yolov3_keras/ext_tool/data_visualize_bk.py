@@ -6,11 +6,11 @@ import os
 num_box = [0] * 22
 classes = []
 
-with open('model_data/bkseeing_classes.txt') as f:
+with open('../model_data/bkseeing_classes.txt') as f:
 	for line in f:
 		classes.append(line.replace('\n',''))
 
-with open("train.txt") as f:
+with open("../train.txt") as f:
 	for line in f:
 		for box in line.split()[1:]:
 			x = int(box.split(',')[4])

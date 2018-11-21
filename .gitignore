@@ -1,9 +1,5 @@
 *.exe
 *.pyc
-*.jpg
-*.rar
-*.zip
 *.h5
 *.weights
-*.csv
 *.ini
