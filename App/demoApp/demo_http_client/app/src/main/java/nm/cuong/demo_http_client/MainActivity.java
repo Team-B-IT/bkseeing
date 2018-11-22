@@ -4,10 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -21,39 +28,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect() {
-        URL url;
+        URL url = null;
+        HttpURLConnection conn = null;
         try {
-            url = new URL("http", "192.168.69.17", 80, "");
-            Toast.makeText(MainActivity.this, "4kjkj, d0^` ng0^'k", Toast.LENGTH_LONG).show();
+            url = new URL("http", "192.168.69.8", 80, "");
+        } catch (MalformedURLException e) {
+            Toast.makeText(MainActivity.this, "MalformedURLException: " + e, Toast.LENGTH_LONG).show();
+        }
+        if (url != null) {
             try {
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
-//                urlConnection.setDoOutput(true);
-//                urlConnection.setInstanceFollowRedirects(false);
-               String query = URLEncoder.encode("Hello!", "utf-8");
-//               InputStream response = urlConnection.getInputStream();
-//                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//                urlConnection.setRequestProperty("charset", "utf-8");
-//                urlConnection.setRequestProperty("Content-Length", Integer.toString(requestdata.length()));
-//                urlConnection.setUseCaches(false);
-//                try (DataOutputStream w = new DataOutputStream(urlConnection.getOutputStream())) {
-//                    w.write(requestdata.getBytes());
-//                }
-                int code = urlConnection.getResponseCode();
-                Toast.makeText(MainActivity.this, "Anh Vuong dep trai", Toast.LENGTH_LONG).show();
-//                try {
-//                    String tmp = urlConnection.getRequestMethod();
-//                    Toast.makeText(MainActivity.this, tmp, Toast.LENGTH_LONG).show();
-//                } finally {
-//                    Toast.makeText(MainActivity.this, "ph: ", Toast.LENGTH_LONG).show();
-//                    urlConnection.disconnect();
-//                }
-            } catch(IOException e) {
-                Toast.makeText(MainActivity.this, "xxx: " + e, Toast.LENGTH_LONG).show();
+                conn = (HttpURLConnection) (url.openConnection());
+            } catch (IOException e) {
+                Toast.makeText(MainActivity.this, "IOException: " + e, Toast.LENGTH_LONG).show();
             }
-        } catch(MalformedURLException e) {
-            Toast.makeText(MainActivity.this, "jav: " + e, Toast.LENGTH_LONG).show();
+        }
+        if (conn != null) {
+            try {
+                conn.setRequestMethod("GET");
+            } catch (ProtocolException e) {
+                Toast.makeText(MainActivity.this, "IOException: " + e, Toast.LENGTH_LONG).show();
+            }
+
+            try {
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "MIME");
+                conn.setRequestProperty("charset", "utf-8");
+//                conn.setRequestProperty("Content-Length", "10");
+                OutputStreamWriter out = new OutputStreamWriter((OutputStream) conn.getOutputStream());
+                out.write("Đặng Xuân Vương");
+                out.close();
+            } catch (IOException e) {
+                Toast.makeText(MainActivity.this, "IOException: " + e, Toast.LENGTH_LONG).show();
+            }
+
+            try {
+                int rescode = conn.getResponseCode();
+//                Toast.makeText(MainActivity.this, "Request Code: " + Integer.toString(rescode) + " " + conn.getResponseMessage(), Toast.LENGTH_LONG).show();
+                InputStreamReader in = new InputStreamReader((InputStream) conn.getContent());
+                BufferedReader buff = new BufferedReader(in);
+                String line, text = "";
+                do {
+                    line = buff.readLine();
+                    if (line == null) {
+                        break;
+                    }
+                    text = text + "\n" + line;
+                } while (true);
+                Toast.makeText(MainActivity.this, "Response Content: " + text, Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                Toast.makeText(MainActivity.this, "IOException: " + e, Toast.LENGTH_LONG).show();
+            }
+            conn.disconnect();
+            //Toast.makeText(MainActivity.this, "You are here!", Toast.LENGTH_LONG).show();
         }
     }
-
 }

@@ -7,14 +7,10 @@ app = Flask(__name__)
 
 @app.route("/",methods = ['POST', 'GET'])
 def hello():
-	print("hello1")
+	print("Request Content", request.data.decode("utf-8"))
 	if request.method == 'POST':
-		# print("hello2")
-		print(request.data.decode("utf-8"))
-		# print("hello3")
-		return "Ok em!"
+		return "Mày POST cái gì đấy?".encode("utf-8")
 	else:
-		# print("hello4")
-		return "D m Cuong ngu"
+		return "Mày GET cái gì cơ?".encode("utf-8")
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=80)
