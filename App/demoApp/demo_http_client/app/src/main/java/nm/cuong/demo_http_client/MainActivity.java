@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 //                urlConnection.setDoOutput(true);
 //                urlConnection.setInstanceFollowRedirects(false);
                String query = URLEncoder.encode("Hello!", "utf-8");
-               InputStream response = urlConnection.getInputStream();
+//               InputStream response = urlConnection.getInputStream();
 //                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 //                urlConnection.setRequestProperty("charset", "utf-8");
 //                urlConnection.setRequestProperty("Content-Length", Integer.toString(requestdata.length()));
