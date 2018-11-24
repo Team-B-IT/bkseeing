@@ -7,7 +7,10 @@ app = Flask(__name__)
 
 @app.route("/",methods = ['POST', 'GET'])
 def hello():
-	print("Request Content", request.data.decode("utf-8"))
+	# print("Request Content", request.data.decode("utf-8"))
+	f = open("img.png", "wb")
+	f.write(request.data)
+	f.close()
 	if request.method == 'POST':
 		return "Mày POST cái gì đấy?".encode("utf-8")
 	else:

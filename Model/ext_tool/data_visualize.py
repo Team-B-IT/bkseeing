@@ -16,12 +16,12 @@ with open("../train.txt") as f:
 	for line in f:
 		print(line)
 		ok = False
-		img = Image.open(line.split(' ')[0].replace('\n',''));
+		img = Image.open("../"+line.split(' ')[0].replace('\n',''));
 		for box in line.split()[1:]:
 			a = list(int(i) for i in box.split(','))
 			x = int(box.split(',')[4])
 			num_box[x] += 1
-			if (x == 3):
+			if (x == 21):
 				ok = True
 				draw = ImageDraw.Draw(img)
 				draw.rectangle([a[0], a[1], a[2], a[3]], outline = "green")
