@@ -279,4 +279,3 @@ printProgressBar(
 print("Total:", countImg, "images")
 print('Abort:', countAbort, 'images')
 print(dfCount)
-
