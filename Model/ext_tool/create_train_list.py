@@ -26,7 +26,7 @@ def convert_annotation(img_link, xml_link, list_file):
         w = int(obj.find('width').text)
         h = int(obj.find('height').text)
 
-    list_file.write("../" + img_link)
+    list_file.write(img_link)
 
     for obj in root.iter('object'):
         difficult = obj.find('difficult').text
