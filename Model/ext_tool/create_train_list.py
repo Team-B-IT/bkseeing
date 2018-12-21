@@ -11,12 +11,12 @@ print (classes)
 
 def convert_annotation(img_link, xml_link, list_file):
     try:
-        Image.open(img_link)
-        in_file = open(xml_link)
+        Image.open("../" + img_link)
+        in_file = open("../" + xml_link)
     except:
         return
 
-    if os.path.getsize(img_link) < 5000 or os.path.getsize(xml_link) < 100:
+    if os.path.getsize("../" + img_link) < 5000 or os.path.getsize("../" + xml_link) < 100:
         return
     
     tree=ET.parse(in_file)
@@ -26,7 +26,7 @@ def convert_annotation(img_link, xml_link, list_file):
         w = int(obj.find('width').text)
         h = int(obj.find('height').text)
 
-    list_file.write(img_link)
+    list_file.write("../" + img_link)
 
     for obj in root.iter('object'):
         difficult = obj.find('difficult').text
@@ -60,9 +60,9 @@ os.getcwd()
 list_file = open("../train.txt", "w")
 
 for i in range(1, 21):
-    jpg_folder = "../../../data/BKSeeing/data-ver-1.9/jpg" + str(i)
-    xml_folder = "../../../data/BKSeeing/data-ver-1.9/xml" + str(i)
-    for file in os.listdir(jpg_folder):
+    jpg_folder = "../../data/BKSeeing/data-ver-1.9/jpg" + str(i)
+    xml_folder = "../../data/BKSeeing/data-ver-1.9/xml" + str(i)
+    for file in os.listdir("../" + jpg_folder):
         extension = file[-4:]
         if extension != ".jpg":
             continue
