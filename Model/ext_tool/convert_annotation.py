@@ -52,7 +52,7 @@ def convert_annotation(image_id, list_file):
             temp = b[1]
             b[1] = b[3]
             b[3] = temp
-        list_file.write("../../../data/BKSeeing/data-ver-1.2/%s.jpg"%(image_id) + " " + ",".join([str(a) for a in b]) + ',' + str(cls_id) + '\n')
+        list_file.write("../../../data/BKSeeing/data-ver-1.9/%s.jpg"%(image_id) + " " + ",".join([str(a) for a in b]) + ',' + str(cls_id) + '\n')
 
 list_file = open("../train.txt", "w")
 images_list = open("../ID.csv", "r")

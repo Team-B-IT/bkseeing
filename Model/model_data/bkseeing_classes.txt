@@ -1,22 +1,9 @@
-Dog
-Cat
-Human body
+Name
+Man
+Woman
 Chair
-Stool
 Table
-Desk
 Box
 Door
 Stairs
-Shelf
-Bed
-Bookcase
-Countertop
-Closet
-Couch
-Refrigerator
-Mechanical fan
-Wardrobe
-Filing cabinet
-Tableware
 Others
