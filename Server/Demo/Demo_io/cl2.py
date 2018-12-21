@@ -13,6 +13,13 @@ while True:
 	b = bytes(str(i) + '\n', "utf-8")
 	p.stdin.write(b)
 	p.stdin.flush()
-	result = int(p.stdout.readline().decode("utf-8").rstrip())
-	# p.stdout.flush()
-	print(result*result)
+	result = []
+	while True:
+		r = p.stdout.readline()
+		if r is None:
+			break
+		print(int(r.decode("utf-8").rstrip()))
+		result.append(int(r))
+	p.stdout.flush()
+	for r in result:
+		print(r*r)
