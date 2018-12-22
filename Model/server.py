@@ -3,28 +3,39 @@ import subprocess
 import threading
 import time
 
-label = {'Dog': 'con chó',
-	'Cat': 'con mèo',
-	'Human body': 'người',
+# label = {'Dog': 'con chó',
+# 	'Cat': 'con mèo',
+# 	'Human body': 'người',
+# 	'Chair': 'cái ghế',
+# 	'Stool': 'cái ghế đẩu',
+# 	'Table': 'cái bàn',
+# 	'Desk': 'bàn làm việc',
+# 	'Box': 'cái thùng',
+# 	'Door': 'cái cửa',
+# 	'Stairs': 'cầu thang',
+# 	'Shelf': 'giá sách',
+# 	'Bed': 'cái giường',
+# 	'Bookcase': 'kệ sách',
+# 	'Countertop': 'bàn nấu ăn',
+# 	'Closet': 'cái tủ',
+# 	'Couch': 'cái dài',
+# 	'Refrigerator': 'tủ lạnh',
+# 	'Mechanical fan': 'cái quạt',
+# 	'Wardrobe': 'tủ quần áo',
+# 	'Filing cabinet': 'tủ treo',
+# 	'Tableware': 'đồ vật trên bàn',
+# 	'Others': 'đồ vật khác'}
+
+label = {
+	'Man': 'người',
+	'Woman': 'người',
 	'Chair': 'cái ghế',
-	'Stool': 'cái ghế đẩu',
 	'Table': 'cái bàn',
-	'Desk': 'bàn làm việc',
 	'Box': 'cái thùng',
 	'Door': 'cái cửa',
 	'Stairs': 'cầu thang',
-	'Shelf': 'giá sách',
-	'Bed': 'cái giường',
-	'Bookcase': 'kệ sách',
-	'Countertop': 'bàn nấu ăn',
-	'Closet': 'cái tủ',
-	'Couch': 'cái dài',
-	'Refrigerator': 'tủ lạnh',
-	'Mechanical fan': 'cái quạt',
-	'Wardrobe': 'tủ quần áo',
-	'Filing cabinet': 'tủ treo',
-	'Tableware': 'đồ vật trên bàn',
-	'Others': 'đồ vật khác'}
+	'Others': 'vật thể'
+}
 
 cmd = "python yolo_video.py --image"
 p = subprocess.Popen(cmd,

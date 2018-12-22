@@ -1,0 +1,8 @@
+Man
+Woman
+Chair
+Table
+Box
+Door
+Stairs
+Others
