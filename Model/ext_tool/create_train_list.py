@@ -59,7 +59,7 @@ def convert_annotation(img_link, xml_link, list_file):
 os.getcwd()
 list_file = open("../train.txt", "w")
 
-for i in range(1, 21):
+for i in range(1, 5):
     jpg_folder = "../../data/BKSeeing/data-ver-2.0/jpg" + str(i)
     xml_folder = "../../data/BKSeeing/data-ver-2.0/xml" + str(i)
     for file in os.listdir("../" + jpg_folder):
