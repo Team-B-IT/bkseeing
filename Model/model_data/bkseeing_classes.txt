@@ -2,7 +2,7 @@ Man
 Woman
 Chair
 Table
-Box
+Desk
 Door
 Stairs
 Others
