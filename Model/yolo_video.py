@@ -2,6 +2,8 @@ import sys
 import argparse
 from yolo import YOLO, detect_video
 from PIL import Image
+import cv2
+import numpy
 
 def detect_img(yolo):
     while True:
@@ -14,6 +16,9 @@ def detect_img(yolo):
         else:
             r_image = yolo.detect_image(image)
             # r_image.show()
+            cv2.namedWindow('result', cv2.WINDOW_NORMAL)
+            cv2.imshow('result', numpy.array(r_image)[:, :, ::-1].copy())
+            cv2.waitKey(10)
     yolo.close_session()
 
 FLAGS = None

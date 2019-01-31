@@ -6,7 +6,7 @@ import os
 from time import sleep
 
 #CONFIG YOUR PATH
-path = "D:\Study\Others\STTBK2018"
+path = "D:/Study/Others/STTBK2018/"
 
 # Configure depth and color streams
 pipeline = rs.pipeline()

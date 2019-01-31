@@ -26,15 +26,20 @@ import time
 # 	'Tableware': 'đồ vật trên bàn',
 # 	'Others': 'đồ vật khác'}
 
+# label = {'Man': 'người',
+#         'Chair': 'cái ghế',
+#         'Table': 'cái bàn',
+#         'Door': 'cái cửa',
+#         'Stairs': 'cầu thang',
+#         'Others': 'vật khác'}
+
 label = {
 	'Man': 'người',
-	'Woman': 'người',
 	'Chair': 'cái ghế',
 	'Table': 'cái bàn',
 	'Box': 'cái thùng',
 	'Door': 'cái cửa',
-	'Stairs': 'cầu thang',
-	'Others': 'vật thể'
+	'Stairs': 'cầu thang'
 }
 
 cmd = "python yolo_video.py --image"
