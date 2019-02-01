@@ -1,5 +1,7 @@
 Man
+Woman
 Chair
+Table
 Desk
 Door
 Stairs
