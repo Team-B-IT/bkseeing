@@ -32,7 +32,7 @@ def _main():
             freeze_body=2, weights_path='model_data/tiny_yolo_weights.h5')
     else:
         model = create_model(input_shape, anchors, num_classes,
-            freeze_body=2, weights_path='model_data/frozen003.h5') # make sure you know what you freeze
+            freeze_body=2, weights_path='model_data/yolo_weights.h5') # make sure you know what you freeze
         # plot_model(model, to_file='model.png', show_shapes=True)
 
     logging = TensorBoard(log_dir=log_dir)
@@ -52,7 +52,7 @@ def _main():
 
     # Train with frozen layers first, to get a stable loss.
     # Adjust num epochs to your dataset. This step is enough to obtain a not bad model.
-    if False:
+    if True:
         model.compile(optimizer=Adam(lr=1e-3), loss={
             # use custom yolo_loss Lambda layer.
             'yolo_loss': lambda y_true, y_pred: y_pred})
@@ -70,7 +70,7 @@ def _main():
 
     # Unfreeze and continue training, to fine-tune.
     # Train longer if the result is not good.
-    if True:
+    if False:
         for i in range(len(model.layers)):
             model.layers[i].trainable = True
         model.compile(optimizer=Adam(lr=1e-7), loss={'yolo_loss': lambda y_true, y_pred: y_pred}) # recompile to apply the change
