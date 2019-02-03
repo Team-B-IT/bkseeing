@@ -32,7 +32,7 @@ def _main():
             freeze_body=2, weights_path='model_data/tiny_yolo_weights.h5')
     else:
         model = create_model(input_shape, anchors, num_classes,
-            freeze_body=2, weights_path='model_data/frozen_1.0.1_data_version_2.0.h5') # make sure you know what you freeze
+            freeze_body=2, weights_path='model_data/finetune_1.0.0_data_version_2.0.h5') # make sure you know what you freeze
         # plot_model(model, to_file='model.png', show_shapes=True)
 
     logging = TensorBoard(log_dir=log_dir)
@@ -73,7 +73,7 @@ def _main():
     if True:
         for i in range(len(model.layers)):
             model.layers[i].trainable = True
-        model.compile(optimizer=Adam(lr=1e-7), loss={'yolo_loss': lambda y_true, y_pred: y_pred}) # recompile to apply the change
+        model.compile(optimizer=Adam(lr=1e-13), loss={'yolo_loss': lambda y_true, y_pred: y_pred}) # recompile to apply the change
         print('Unfreeze all of the layers.')
 
         batch_size = 4 # note that more GPU memory is required after unfreezing the body
@@ -82,10 +82,10 @@ def _main():
             steps_per_epoch=max(1, num_train//batch_size),
             validation_data=data_generator_wrapper(lines[num_train:], batch_size, input_shape, anchors, num_classes),
             validation_steps=max(1, num_val//batch_size),
-            epochs=60,
-            initial_epoch=40,
+            epochs=80,
+            initial_epoch=60,
             callbacks=[logging, checkpoint, reduce_lr, early_stopping])
-        model.save_weights('model_data/finetune_1.0.0_data_version_2.0.h5')
+        model.save_weights('model_data/finetune_1.0.1_data_version_2.0.h5')
 
     # Further training if needed.
 
