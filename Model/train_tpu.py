@@ -68,7 +68,7 @@ def _main():
                 epochs=20,
                 initial_epoch=0,
                 callbacks=[logging, checkpoint])
-        model.save_weights('model_data/frozen_1.0.1_data_version_2.0.h5')
+        model.save_weights('model_data/frozen_1.1.0_data_version_2.0.h5')
 
     # Unfreeze and continue training, to fine-tune.
     # Train longer if the result is not good.
