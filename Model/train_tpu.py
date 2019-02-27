@@ -15,6 +15,7 @@ from yolo3.utils import get_random_data
 from PIL import ImageFile
 # from keras.utils import plot_model
 
+import os
 TPU_WORKER = 'grpc://' + os.environ['COLAB_TPU_ADDR']
 
 def _main():
