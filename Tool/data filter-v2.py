@@ -1,3 +1,4 @@
+#@title Get images { form-width: "20%" }
 import time
 import urllib
 from time import sleep
@@ -11,12 +12,16 @@ import math
 from bs4 import BeautifulSoup
 import os
 
+#define data version
+dataVersion = 'data-1.0'
+dirName = '/content/drive/My Drive/Projects/BKSeeing/' + dataVersion + '/data/'
+
 # socket.setdefaulttimeout(60)
 global curIdData
 global countImg 
 global countAbort
-
 curIdData = countImg = countAbort = 0
+countFolder = 1
 
 def printProgressBar(iteration,
                      total,
@@ -63,6 +68,10 @@ def getRow(width, height, i):
         if dfBox['LabelName'][j] == dfClass['LabelName'][ii]:
           ObjectName = dfClass['Name'][ii]
           break
+    if ObjectName == 'Woman':
+      ObjectName = 'Man'
+    if ObjectName == 'Desk':
+      ObjectName = 'Table'
     XMin = max(0, math.floor(dfBox['XMin'][j] * width))
     XMax = min(width, math.ceil(dfBox['XMax'][j] * width))
     YMin = max(0, math.floor(dfBox['YMin'][j] * height))
@@ -119,7 +128,6 @@ def convertBToMb(bytes):
     return megabytes
 
 def dlProgress(count, blockSize, totalSize):
-    
     alreadyLoaded = count * blockSize
     timePassed = time.time() - startTime
     transferRate = convertBToMb(
@@ -133,15 +141,14 @@ def dlProgress(count, blockSize, totalSize):
     if percent >= 100:
         raise CompleteDownload
 
-
-def DownloadFile(imageID, imageURL, i):
+def DownloadFile(imageID, imageURL, i, dirname):
   global countImg 
-  global countAbort  
+  global countAbort
   folderNum = (int)((countImg + 2000) / 2000)
   if(countImg%2000 == 0):
     print(folderNum)
-  imageFolder = '/content/drive/My Drive/Projects/BKSeeing/data-ver-1.8/'
-  imageInfoFolder = '/content/drive/My Drive/Projects/BKSeeing/data-ver-1.8/'
+  imageFolder = dirname + '/data/'
+  imageInfoFolder = dirname + '/data/'
   imageFolder = "%sjpg%d/"%(imageFolder, folderNum)
   imageInfoFolder = "%sxml%d/"%(imageInfoFolder, folderNum)
   imageName = imageID+'.jpg'
@@ -149,8 +156,8 @@ def DownloadFile(imageID, imageURL, i):
   global startTime
   startTime = time.time()
   r = requests.get(imageURL)
-  f = open(imageFolder+imageName, 'wb')
-  for chunk in r.iter_content(chunk_size=512 * 1024):
+  f = open(imageFolder + imageName, 'wb')
+  for chunk in r.iter_content(chunk_size = 512 * 1024):
     if (chunk):
       f.write(chunk)
   f.close()
@@ -172,23 +179,23 @@ dfImg = dfImg.reset_index(drop=True)
 numImg = len(dfImg)
 print('Image URL imported!')
 
-dfClass = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/class-des-bkseeing.csv")
+#get selected classes
+dfClass = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/" + dataVersion + "/class-des-bkseeing.csv")
 numClass = len(dfClass)
 print('Classes imported!')
 
 dfBox = pd.read_csv(
     "/content/drive/My Drive/Projects/BKSeeing/Tool/train-annotations-bbox.csv",
-    nrows=1000000)
+    nrows=2000000)
 numBox = len(dfBox)
 print('Boxes imported!')
 print(numImg, numClass, numBox)
 
-dfCount = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/class-count-bkseeing.csv")
-dfTmp = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/class-count-bkseeing.csv")
-
+#get dummy selected classes
+dfCount = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/" + dataVersion + "/class-count-bkseeing.csv")
+dfTmp = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/" + dataVersion + "/class-count-bkseeing.csv")
 dfID = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/ID-origin.csv")
-
-dfSort = pd.DataFrame(['ImageID', 'Sum'])
+dfSort =  pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/Priority10mil.csv")
 
 curID = 0
 
@@ -198,28 +205,32 @@ printProgressBar(
 folderNum = 1
 
 #get the priority
-curPos = 0
-cntTmp = 0
-for i in range(0, numBox-1):
-  printProgressBar(
-    i, numBox, prefix='Progress:', suffix='Complete', decimals=3, length=50)
-  for ii in range (0, numClass):
-    if dfClass['LabelName'][ii] == dfBox['LabelName'][i]:
-      cntTmp += 1
-      break
-  if dfBox['ImageID'][i] != dfBox['ImageID'][i + 1]:
-    dfSort.loc[curPos, 'ImageID'] = dfBox.loc[i, 'ImageID']
-    dfSort.loc[curPos, 'Sum'] = cntTmp
-    cntTmp = 0
-    curPos += 1
-dfSort = dfSort.sort_values(by=['Sum'], ascending = False).reset_index(drop=True)
-dfSort = dfSort.reset_index(drop=True)
-numSort = len(dfSort)
-print(dfSort)
-print('Images sorted!')
+# print('Getting Priority!')
+# curPos = 0
+# cntTmp = 0
+# for i in range(0, numBox-1):
+#   if i % 1000 == 0:
+#     printProgressBar(
+#       i, numBox, prefix='Progress:', suffix='Complete', decimals=3, length=50)
+#   for ii in range (0, numClass):
+#     if dfClass['LabelName'][ii] == dfBox['LabelName'][i]:
+#       cntTmp += 1
+#       break
+#   if dfBox['ImageID'][i] != dfBox['ImageID'][i + 1]:
+#     dfSort.loc[curPos, 'ImageID'] = dfBox.loc[i, 'ImageID']
+#     dfSort.loc[curPos, 'Sum'] = cntTmp
+#     cntTmp = 0
+#     curPos += 1
+# dfSort = dfSort.sort_values(by=['Sum'], ascending = False).reset_index(drop=True)
+# dfSort = dfSort.reset_index(drop=True)
+# numSort = len(dfSort)
+# print(dfSort)
+# dfID.to_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/Priority10mil.csv")
+# print('Images sorted!')
 
+print('Downloading Images!')
 #get images
-for i in range(0, numSort):
+for i in range(0, numSort-1):
   if dfSort.loc[i, 'Sum'] == 0:
     break
   #get position of image in boxes file
@@ -248,7 +259,7 @@ for i in range(0, numSort):
   flag = 0
   for ii in range (0, numClass):
     if dfTmp.loc[ii, 'Quantity'] > 0:
-      if dfCount.loc[ii, 'Quantity'] + dfTmp.loc[ii, 'Quantity'] < 2000:
+      if dfCount.loc[ii, 'Quantity'] + dfTmp.loc[ii, 'Quantity'] < 4000:
         flag = 1
         break
   #image satisfied
@@ -264,11 +275,27 @@ for i in range(0, numSort):
         L = M
     imageURL = dfImg['Thumbnail300KURL'][L]
     if imageURL != -99999:
-      my_thread = Thread(target = DownloadFile, args = (imageID, imageURL, posImg))
+      my_thread = Thread(target = DownloadFile, args = (imageID, imageURL, posImg, dirName))
       my_thread.start()
       for ii in range (0, numClass):
         dfCount.loc[ii, 'Quantity'] += dfTmp.loc[ii, 'Quantity']
-    
+    #create new folder
+    if countFolder * 2000 - countImg < 1000:
+      countFolder += 1
+      dir = "%s/jpg%d"%(dirName, countFolder)
+      if not os.path.exists(dir):
+          os.mkdir(dir)
+          print("Directory " , dir ,  " Created ")
+      else:    
+          print("Directory " , dir,  " already exists")
+      dir = "%s/xml%d"%(dirName, countFolder)
+      if not os.path.exists(dir):
+          os.mkdir(dir)
+          print("Directory " , dir ,  " Created ")
+      else:    
+          print("Directory " , dir ,  " already exists")
+
+
 printProgressBar(
     numBox,
     numBox,
