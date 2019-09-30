@@ -16,6 +16,9 @@ import os
 dataVersion = 'data-1.0'
 dirName = '/content/drive/My Drive/Projects/BKSeeing/' + dataVersion + '/data/'
 
+#set number of boxes limit
+InpNum = 3000000
+
 # socket.setdefaulttimeout(60)
 global curIdData
 global countImg 
@@ -140,6 +143,20 @@ def dlProgress(count, blockSize, totalSize):
     # print('P:', percent)
     if percent >= 100:
         raise CompleteDownload
+        
+def makeFolder(dirName, num):
+  dir = "%s/jpg%d"%(dirName, num)
+  if not os.path.exists(dir):
+      os.mkdir(dir)
+      print("Directory " , dir ,  " Created ")
+  else:    
+      print("Directory " , dir,  " already exists")
+  dir = "%s/xml%d"%(dirName, num)
+  if not os.path.exists(dir):
+      os.mkdir(dir)
+      print("Directory " , dir ,  " Created ")
+  else:    
+      print("Directory " , dir ,  " already exists")
 
 def DownloadFile(imageID, imageURL, i, dirname):
   global countImg 
@@ -147,8 +164,8 @@ def DownloadFile(imageID, imageURL, i, dirname):
   folderNum = (int)((countImg + 2000) / 2000)
   if(countImg%2000 == 0):
     print(folderNum)
-  imageFolder = dirname + '/data/'
-  imageInfoFolder = dirname + '/data/'
+  imageFolder = dirname
+  imageInfoFolder = dirname
   imageFolder = "%sjpg%d/"%(imageFolder, folderNum)
   imageInfoFolder = "%sxml%d/"%(imageInfoFolder, folderNum)
   imageName = imageID+'.jpg'
@@ -186,7 +203,7 @@ print('Classes imported!')
 
 dfBox = pd.read_csv(
     "/content/drive/My Drive/Projects/BKSeeing/Tool/train-annotations-bbox.csv",
-    nrows=2000000)
+    nrows=InpNum)
 numBox = len(dfBox)
 print('Boxes imported!')
 print(numImg, numClass, numBox)
@@ -195,7 +212,7 @@ print(numImg, numClass, numBox)
 dfCount = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/" + dataVersion + "/class-count-bkseeing.csv")
 dfTmp = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/" + dataVersion + "/class-count-bkseeing.csv")
 dfID = pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/ID-origin.csv")
-dfSort =  pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/Priority10mil.csv")
+dfSort =  pd.read_csv("/content/drive/My Drive/Projects/BKSeeing/" + dataVersion + "/ImgPriority.csv")
 
 curID = 0
 
@@ -204,32 +221,12 @@ printProgressBar(
 
 folderNum = 1
 
-#get the priority
-# print('Getting Priority!')
-# curPos = 0
-# cntTmp = 0
-# for i in range(0, numBox-1):
-#   if i % 1000 == 0:
-#     printProgressBar(
-#       i, numBox, prefix='Progress:', suffix='Complete', decimals=3, length=50)
-#   for ii in range (0, numClass):
-#     if dfClass['LabelName'][ii] == dfBox['LabelName'][i]:
-#       cntTmp += 1
-#       break
-#   if dfBox['ImageID'][i] != dfBox['ImageID'][i + 1]:
-#     dfSort.loc[curPos, 'ImageID'] = dfBox.loc[i, 'ImageID']
-#     dfSort.loc[curPos, 'Sum'] = cntTmp
-#     cntTmp = 0
-#     curPos += 1
-# dfSort = dfSort.sort_values(by=['Sum'], ascending = False).reset_index(drop=True)
-# dfSort = dfSort.reset_index(drop=True)
-# numSort = len(dfSort)
-# print(dfSort)
-# dfID.to_csv("/content/drive/My Drive/Projects/BKSeeing/Tool/Priority10mil.csv")
-# print('Images sorted!')
+#init folder
+makeFolder(dirName, countFolder)
 
 print('Downloading Images!')
 #get images
+numSort = len(dfSort)
 for i in range(0, numSort-1):
   if dfSort.loc[i, 'Sum'] == 0:
     break
@@ -282,18 +279,7 @@ for i in range(0, numSort-1):
     #create new folder
     if countFolder * 2000 - countImg < 1000:
       countFolder += 1
-      dir = "%s/jpg%d"%(dirName, countFolder)
-      if not os.path.exists(dir):
-          os.mkdir(dir)
-          print("Directory " , dir ,  " Created ")
-      else:    
-          print("Directory " , dir,  " already exists")
-      dir = "%s/xml%d"%(dirName, countFolder)
-      if not os.path.exists(dir):
-          os.mkdir(dir)
-          print("Directory " , dir ,  " Created ")
-      else:    
-          print("Directory " , dir ,  " already exists")
+      makeFolder(dirName, countFolder)
 
 
 printProgressBar(
